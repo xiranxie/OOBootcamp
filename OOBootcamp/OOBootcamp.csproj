@@ -8,8 +8,4 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
-    <ItemGroup>
-      <None Include="Strategy\HandicappedVehicleParkStrategy.cs" />
-    </ItemGroup>
-
 </Project>
