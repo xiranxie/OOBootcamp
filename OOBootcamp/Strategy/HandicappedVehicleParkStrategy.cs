@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using OOBootcamp;
 using OOBootcamp.Strategy;
 
@@ -22,6 +23,7 @@ public class HandicappedVehicleParkStrategy : IParkStrategy
                 success = parking.Add(vehicle.LicensePlate);
             }
         }
+
         return success;
     }
 }

@@ -1,3 +1,5 @@
+using System;
+
 namespace OOBootcamp;
 
 public class ParkingCapacityChangeEvent : EventArgs
