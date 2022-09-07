@@ -34,4 +34,9 @@ public class GraduateParkingBoy
     {
         _currentParkingLotIndex = (_currentParkingLotIndex+1)% _parkingLots.Count;
     }
+
+    public double Retrieve(Vehicle vehicle)
+    {
+        return _parkingLots[_currentParkingLotIndex].RetrieveVehicle(vehicle);
+    } 
 }

@@ -103,5 +103,21 @@ public class GraduateBoyTest
         Assert.AreEqual("all full", exception.Message);
     }
 
+    [Test]
+    public void Should_Return_5_When_Retrieving_Given_Vehicle_In_A_Parking_Lot()
+    {
+        _parkingLots = new List<ParkingLot>
+        {
+            new(1, 5, "A")
+        };
+        _graduateParkingBoy = new GraduateParkingBoy(_parkingLots);
+        var vehicle = new Vehicle("123");
+        _graduateParkingBoy.Park(vehicle);
+        var price = _graduateParkingBoy.Retrieve(vehicle);
+        Assert.IsInstanceOf<double>(price);
+        Assert.AreEqual(5.0d,price);
+    }
+    
+
 
 }
