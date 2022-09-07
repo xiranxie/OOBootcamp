@@ -37,6 +37,27 @@ public class GraduateParkingBoy
 
     public double Retrieve(Vehicle vehicle)
     {
-        return _parkingLots[_currentParkingLotIndex].RetrieveVehicle(vehicle);
+        var price = 0d;
+        var exceptionNumber = 0;
+        _parkingLots.ForEach(p =>
+        {
+            try
+            {
+                price = p.RetrieveVehicle(vehicle);
+                if (p.AvailableCount == 1)
+                {
+                    _fulledParkingLots--;
+                }
+            }
+            catch (Exception e)
+            {
+                exceptionNumber++;
+            }
+        });
+        if (exceptionNumber == _parkingLots.Count)
+        {
+            throw new Exception("cannot find this vehicle");
+        }
+        return price;
     } 
 }

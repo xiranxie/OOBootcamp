@@ -118,6 +118,20 @@ public class GraduateBoyTest
         Assert.AreEqual(5.0d,price);
     }
     
+    [Test]
+    public void Should_Throw_Exception_When_Retrieving_Given_Vehicle_Is_Not_Parked()
+    {
+        _parkingLots = new List<ParkingLot>
+        {
+            new(1, 5, "A"),
+            new(1,5,"B")
+        };
+        _graduateParkingBoy = new GraduateParkingBoy(_parkingLots);
+        var vehicle = new Vehicle("123");
+        var exception = Assert.Throws<Exception>(()=>_graduateParkingBoy.Retrieve(vehicle));
+        Assert.AreEqual("cannot find this vehicle",exception.Message);
+        
+    }
 
 
 }
