@@ -1,32 +1,26 @@
+using System.Collections.Concurrent;
+
 namespace OOBootcamp;
 
 public class ParkingLot
 {
     public string Name { get; }
     public double HourlyRate { get; }
-    public int AvailableCount { get; private set; }
+    public int AvailableCount => MaxCapacity - _parkedVehicles.Count;
     public int MaxCapacity { get; }
-    private readonly Dictionary<Vehicle, DateTime> _parkedVehicles;
+    private readonly ConcurrentDictionary<Vehicle, DateTime> _parkedVehicles;
 
     public ParkingLot(int maxCapacity, double hourlyRate, string name)
     {
         MaxCapacity = maxCapacity;
         Name = name;
         HourlyRate = hourlyRate;
-        AvailableCount = maxCapacity;
-        _parkedVehicles = new Dictionary<Vehicle, DateTime>();
+        _parkedVehicles = new ConcurrentDictionary<Vehicle, DateTime>();
     }
     
     public bool ParkVehicle(Vehicle vehicle)
     {
-        if (AvailableCount > 0)
-        {
-            _parkedVehicles.Add(vehicle, DateTime.UtcNow);
-            AvailableCount--;
-            return true;
-        }
-
-        return false;
+        return AvailableCount > 0 && _parkedVehicles.TryAdd(vehicle, DateTime.UtcNow);
     }
 
     public bool HasVehicle(Vehicle vehicle)
@@ -34,11 +28,14 @@ public class ParkingLot
         return _parkedVehicles.ContainsKey(vehicle);
     }
     
+    /// <param name="vehicle"></param>
+    /// <returns>Parking charge</returns>
+    /// <exception cref="VehicleNotFoundException"></exception>
     public double RetrieveVehicle(Vehicle vehicle)
     {
-        if (_parkedVehicles.ContainsKey(vehicle))
+        if (_parkedVehicles.ContainsKey(vehicle) && _parkedVehicles.TryRemove(vehicle, out var parkedDateTime))
         {
-            return Math.Ceiling((DateTime.UtcNow - _parkedVehicles[vehicle]).TotalMilliseconds / 3600.0) * HourlyRate;
+            return Math.Ceiling((DateTime.UtcNow - parkedDateTime).TotalMilliseconds / 3600.0) * HourlyRate;
         }
 
         throw new VehicleNotFoundException(vehicle);
