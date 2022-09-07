@@ -32,13 +32,6 @@ public class GraduateParkingBoy
 
     private void SetCurrentParkingLotNode()
     {
-        if (_currentParkingLotIndex == _parkingLots.Count-1)
-        {
-            _currentParkingLotIndex = 0;
-        }
-        else
-        {
-            _currentParkingLotIndex ++;
-        }
+        _currentParkingLotIndex = (_currentParkingLotIndex+1)% _parkingLots.Count;
     }
 }
