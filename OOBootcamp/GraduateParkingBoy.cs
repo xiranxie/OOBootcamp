@@ -2,7 +2,6 @@ namespace OOBootcamp;
 
 public class GraduateParkingBoy
 {
-    // Write your logic here
     private readonly LinkedList<ParkingLot> _parkingLots;
     private LinkedListNode<ParkingLot> _currentParkingLotNode;
 
@@ -17,12 +16,23 @@ public class GraduateParkingBoy
         var parkingLotNode = _currentParkingLotNode;
         if (parkingLotNode.Value.ParkVehicle(vehicle))
         {
-            _currentParkingLotNode = parkingLotNode.Next;
+            SetCurrentParkingLotNode(parkingLotNode);
             return parkingLotNode.Value;
         }
-        _currentParkingLotNode = parkingLotNode.Next;
+        SetCurrentParkingLotNode(parkingLotNode);
         Park(vehicle);
         return new ParkingLot(0,0,"test");
+    }
 
+    private void SetCurrentParkingLotNode(LinkedListNode<ParkingLot> parkingLotNode)
+    {
+        if (parkingLotNode == _parkingLots.Last)
+        {
+            _currentParkingLotNode = _parkingLots.First;
+        }
+        else
+        {
+            _currentParkingLotNode = parkingLotNode.Next;
+        }
     }
 }
