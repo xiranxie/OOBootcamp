@@ -2,14 +2,14 @@ namespace OOBootcamp;
 
 public class GraduateParkingBoy
 {
-    private readonly LinkedList<ParkingLot> _parkingLots;
-    private LinkedListNode<ParkingLot> _currentParkingLotNode;
+    private readonly List<ParkingLot> _parkingLots;
+    private int _currentParkingLotIndex;
     private int _fulledParkingLots;
 
-    public GraduateParkingBoy(LinkedList<ParkingLot> parkingLots)
+    public GraduateParkingBoy(List<ParkingLot> parkingLots)
     {
         _parkingLots = parkingLots;
-        _currentParkingLotNode = parkingLots.First;
+        _currentParkingLotIndex = 0;
         _fulledParkingLots = 0;
     }
 
@@ -19,26 +19,26 @@ public class GraduateParkingBoy
         {
             throw new Exception("all full");
         }
-        var parkingLotNode = _currentParkingLotNode;
-        if (parkingLotNode.Value.ParkVehicle(vehicle))
+        var parkingLot = _parkingLots[_currentParkingLotIndex];
+        if (parkingLot.ParkVehicle(vehicle))
         {
-            SetCurrentParkingLotNode(parkingLotNode);
-            return parkingLotNode.Value;
+            SetCurrentParkingLotNode();
+            return parkingLot;
         }
         _fulledParkingLots++;
-        SetCurrentParkingLotNode(parkingLotNode);
+        SetCurrentParkingLotNode();
         return Park(vehicle);
     }
 
-    private void SetCurrentParkingLotNode(LinkedListNode<ParkingLot> parkingLotNode)
+    private void SetCurrentParkingLotNode()
     {
-        if (parkingLotNode == _parkingLots.Last)
+        if (_currentParkingLotIndex == _parkingLots.Count-1)
         {
-            _currentParkingLotNode = _parkingLots.First;
+            _currentParkingLotIndex = 0;
         }
         else
         {
-            _currentParkingLotNode = parkingLotNode.Next;
+            _currentParkingLotIndex ++;
         }
     }
 }
