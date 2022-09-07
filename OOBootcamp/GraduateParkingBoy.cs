@@ -25,11 +25,9 @@ public class GraduateParkingBoy
             SetCurrentParkingLotNode(parkingLotNode);
             return parkingLotNode.Value;
         }
-
         _fulledParkingLots++;
         SetCurrentParkingLotNode(parkingLotNode);
-        Park(vehicle);
-        return null;
+        return Park(vehicle);
     }
 
     private void SetCurrentParkingLotNode(LinkedListNode<ParkingLot> parkingLotNode)
