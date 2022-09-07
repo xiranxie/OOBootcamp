@@ -4,9 +4,8 @@ public class ParkingLot
 {
     public string Name { get; }
     public double HourlyRate { get; }
-    private int MaxCapacity { get; }
-    
-    private readonly int _availableSpace;
+    public int AvailableCount { get; private set; }
+    public int MaxCapacity { get; }
     private readonly Dictionary<Vehicle, DateTime> _parkedVehicles;
 
     public ParkingLot(int maxCapacity, double hourlyRate, string name)
@@ -14,15 +13,16 @@ public class ParkingLot
         MaxCapacity = maxCapacity;
         Name = name;
         HourlyRate = hourlyRate;
-        _availableSpace = maxCapacity;
+        AvailableCount = maxCapacity;
         _parkedVehicles = new Dictionary<Vehicle, DateTime>();
     }
     
     public bool ParkVehicle(Vehicle vehicle)
     {
-        if (_availableSpace > 0)
+        if (AvailableCount > 0)
         {
             _parkedVehicles.Add(vehicle, DateTime.UtcNow);
+            AvailableCount--;
             return true;
         }
 
@@ -38,5 +38,4 @@ public class ParkingLot
 
         throw new VehicleNotFoundException(vehicle);
     }
-
 }
