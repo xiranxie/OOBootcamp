@@ -28,6 +28,11 @@ public class ParkingLot
 
         return false;
     }
+
+    public bool HasVehicle(Vehicle vehicle)
+    {
+        return _parkedVehicles.ContainsKey(vehicle);
+    }
     
     public double RetrieveVehicle(Vehicle vehicle)
     {
